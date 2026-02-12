@@ -27,6 +27,25 @@ body {
   position: relative;
 }
 
+/* Header */
+.header {
+  position: absolute;
+  top: 40px;
+  font-family: 'Lora', serif;
+  font-size: 2.6rem;
+  font-weight: 600;
+  color: #3a2a1a;
+  text-align: center;
+}
+
+/* Hearts */
+.hearts {
+  position: absolute;
+  top: 95px;
+  font-size: 0.75rem;
+  letter-spacing: 4px;
+}
+
 /* Message text */
 .message {
   font-size: 1.8rem;
