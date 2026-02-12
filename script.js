@@ -1,6 +1,6 @@
 // Supabase config — replace with your project's values
-const SUPABASE_URL = 'YOUR_SUPABASE_URL';
-const SUPABASE_ANON_KEY = 'YOUR_ANON_KEY';
+const SUPABASE_URL = 'https://loohohdpzirmanhoagfv.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imxvb2hvaGRwemlybWFuaG9hZ2Z2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA5Mzc1MzgsImV4cCI6MjA4NjUxMzUzOH0.3ow3PaxcloWDXfABIYhgZlx1QA5YRN96vg0jnDoSAo4';
 
 let supabaseClient = null;
 try {
