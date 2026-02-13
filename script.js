@@ -19,7 +19,28 @@ filter.addWords(
   'i hate', 'you suck', 'no one likes', 'nobody likes', 'fat', 'pp'
 );
 
+// Blocked emojis
+const BLOCKED_EMOJIS = [
+  '🖕', // middle finger
+  '🍆', // eggplant
+  '🍑', // peach
+  '💀', // skull
+  '☠️', // skull and crossbones
+  '🔫', // gun
+  '💩', // poop
+  '🤮', // vomiting
+  '👎', // thumbs down
+  '😈', // devil
+  '👿', // angry devil
+  '💣', // bomb
+  '🔪', // knife
+  '⚰️', // coffin
+  '🖕🏻', '🖕🏼', '🖕🏽', '🖕🏾', '🖕🏿', // middle finger skin tones
+  '👎🏻', '👎🏼', '👎🏽', '👎🏾', '👎🏿', // thumbs down skin tones
+];
+
 function containsBlockedContent(text) {
+  if (BLOCKED_EMOJIS.some((emoji) => text.includes(emoji))) return true;
   return filter.isProfane(text);
 }
 
