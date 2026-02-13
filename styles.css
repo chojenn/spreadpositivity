@@ -196,6 +196,18 @@ body {
   display: block;
 }
 
+.modal-rejection {
+  display: none;
+  margin-top: 14px;
+  text-align: center;
+  font-size: 0.85rem;
+  color: #c0392b;
+}
+
+.modal-rejection.show {
+  display: block;
+}
+
 /* Responsive adjustments */
 @media (max-width: 600px) {
   .message {

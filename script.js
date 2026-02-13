@@ -1,4 +1,6 @@
-// Supabase config — replace with your project's values
+import { Filter } from 'https://esm.run/bad-words';
+
+// Supabase config
 const SUPABASE_URL = 'https://loohohdpzirmanhoagfv.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imxvb2hvaGRwemlybWFuaG9hZ2Z2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA5Mzc1MzgsImV4cCI6MjA4NjUxMzUzOH0.3ow3PaxcloWDXfABIYhgZlx1QA5YRN96vg0jnDoSAo4';
 
@@ -9,6 +11,18 @@ try {
   console.warn('Supabase not configured yet:', e.message);
 }
 
+// Content filter — bad-words library + custom negative phrases
+const filter = new Filter();
+filter.addWords(
+  'kill yourself', 'kys', 'go die', 'ugly', 'loser', 'worthless',
+  'pathetic', 'disgusting', 'stupid', 'idiot', 'moron', 'dumb',
+  'i hate', 'you suck', 'no one likes', 'nobody likes', 'fat', 'pp'
+);
+
+function containsBlockedContent(text) {
+  return filter.isProfane(text);
+}
+
 // DOM elements
 const addBtn = document.querySelector('.add-message-btn');
 const overlay = document.getElementById('modal-overlay');
@@ -16,6 +30,7 @@ const closeBtn = document.getElementById('modal-close');
 const input = document.getElementById('message-input');
 const submitBtn = document.getElementById('modal-submit');
 const confirmation = document.getElementById('modal-confirmation');
+const rejection = document.getElementById('modal-rejection');
 const messageEl = document.querySelector('.message');
 
 // Rotating messages from Supabase
@@ -55,6 +70,7 @@ setInterval(showNextMessage, 15000);
 function openModal() {
   input.value = '';
   confirmation.classList.remove('show');
+  rejection.classList.remove('show');
   submitBtn.disabled = false;
   overlay.classList.add('active');
   input.focus();
@@ -76,6 +92,13 @@ overlay.addEventListener('click', (e) => {
 submitBtn.addEventListener('click', async () => {
   const content = input.value.trim();
   if (!content) return;
+
+  rejection.classList.remove('show');
+
+  if (containsBlockedContent(content)) {
+    rejection.classList.add('show');
+    return;
+  }
 
   submitBtn.disabled = true;
 
