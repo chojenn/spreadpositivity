@@ -16,7 +16,42 @@ const closeBtn = document.getElementById('modal-close');
 const input = document.getElementById('message-input');
 const submitBtn = document.getElementById('modal-submit');
 const confirmation = document.getElementById('modal-confirmation');
+const messageEl = document.querySelector('.message');
 
+// Rotating messages from Supabase
+let messages = [];
+let currentIndex = 0;
+
+async function fetchMessages() {
+  if (!supabaseClient) return;
+
+  const { data, error } = await supabaseClient
+    .from('messages')
+    .select('content')
+    .order('created_at', { ascending: false });
+
+  if (error) {
+    console.error('Error fetching messages:', error);
+    return;
+  }
+
+  if (data && data.length > 0) {
+    messages = data.map((row) => row.content);
+    currentIndex = 0;
+    messageEl.textContent = messages[0];
+  }
+}
+
+function showNextMessage() {
+  if (messages.length === 0) return;
+  currentIndex = (currentIndex + 1) % messages.length;
+  messageEl.textContent = messages[currentIndex];
+}
+
+fetchMessages();
+setInterval(showNextMessage, 15000);
+
+// Modal
 function openModal() {
   input.value = '';
   confirmation.classList.remove('show');
@@ -54,6 +89,9 @@ submitBtn.addEventListener('click', async () => {
       submitBtn.disabled = false;
       return;
     }
+
+    // Add the new message to the rotation
+    messages.push(content);
   } else {
     console.log('Message submitted (Supabase not configured):', content);
   }
