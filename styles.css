@@ -58,6 +58,19 @@ body {
   max-width: 90vw;
 }
 
+/* View all messages link */
+.view-all-link {
+  margin-top: 16px;
+  font-size: 0.8rem;
+  color: #9a7b8a;
+  text-decoration: underline;
+  transition: color 0.3s;
+}
+
+.view-all-link:hover {
+  color: #3a2a1a;
+}
+
 /* Add Your Own Message button */
 .add-message-btn {
   position: absolute;

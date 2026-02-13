@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>All Messages — Spread Positivity</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>☺</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="hearts.css">
+</head>
+<body>
+  <div class="background">
+    <a href="index.html" class="back-link">← back</a>
+    <h1 class="header">Spread Positivity</h1>
+    <p class="hearts-subtitle">♡ tap a heart to reveal its message ♡</p>
+    <div class="hearts-container" id="hearts-container"></div>
+  </div>
+
+  <!-- Popup overlay -->
+  <div class="popup-overlay" id="popup-overlay">
+    <div class="popup">
+      <button class="popup-close" id="popup-close">&times;</button>
+      <p class="popup-message" id="popup-message"></p>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="hearts.js"></script>
+</body>
+</html>
