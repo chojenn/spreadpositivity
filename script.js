@@ -37,6 +37,7 @@ const CUSTOM_BLOCKED_WORDS = [
   'retard', 'retarded', 'r3tard', 'ret4rd',
   'f4g', 'f4gg0t', 'tr4nny',
   'n1g', 'n1gg', 'nigg', 'n i g',
+  'jew', 'jews', 'j3w', 'j3ws', 'j e w', 'joo', 'joos', 'j00', 'j00s',
   // Leet speak / evasion variants
   'b1tch', 'b!tch', 'bi+ch', 'btch',
   'a$$', 'a ss', 'a s s',
@@ -65,6 +66,7 @@ const BLOCKED_EMOJIS = [
   '💣', // bomb
   '🔪', // knife
   '⚰️', // coffin
+  '🧃', // juice box
   '🖕🏻', '🖕🏼', '🖕🏽', '🖕🏾', '🖕🏿', // middle finger skin tones
   '👎🏻', '👎🏼', '👎🏽', '👎🏾', '👎🏿', // thumbs down skin tones
 ];
@@ -82,6 +84,9 @@ function containsBlockedContent(text) {
 
   // Block any word starting with "nigg" (catches all variants)
   if (/\bnigg/i.test(lower) || /\bn\s*i\s*g\s*g/i.test(lower)) return true;
+
+  // Block "jew" and variations (j3w, j00, j e w, etc.)
+  if (/\bjew/i.test(lower) || /\bj\s*e\s*w/i.test(lower) || /\bj[03]w/i.test(stripped)) return true;
 
   // Check with common leet substitutions normalized
   const normalized = lower
