@@ -36,7 +36,7 @@ const CUSTOM_BLOCKED_WORDS = [
   // Slurs & variants the library may miss
   'retard', 'retarded', 'r3tard', 'ret4rd',
   'f4g', 'f4gg0t', 'tr4nny',
-  'n1g', 'n1gg', 'nigg', 'n i g',
+  // n-word variants handled by regex in containsBlockedContent()
   'jew', 'jews', 'j3w', 'j3ws', 'j e w', 'joo', 'joos', 'j00', 'j00s', 'juice',
   // Leet speak / evasion variants
   'b1tch', 'b!tch', 'bi+ch', 'btch',
@@ -82,8 +82,10 @@ function containsBlockedContent(text) {
   const stripped = lower.replace(/\s+/g, '');
   if (filter.isProfane(stripped)) return true;
 
-  // Block any word starting with "nigg" (catches all variants)
+  // Block n-word and all variants (nigg*, nig, n1g, spaced out, etc.)
   if (/\bnigg/i.test(lower) || /\bn\s*i\s*g\s*g/i.test(lower)) return true;
+  if (/\bnig\b/i.test(lower) || /\bn\s*i\s*g\b/i.test(lower)) return true;
+  if (/n[1!i][gq]{1,2}[e3a4]?[r]?s?/i.test(stripped)) return true;
 
   // Block "jew" and variations (j3w, j00, j e w, etc.)
   if (/\bjew/i.test(lower) || /\bj\s*e\s*w/i.test(lower) || /\bj[03]w/i.test(stripped)) return true;
