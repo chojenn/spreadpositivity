@@ -37,7 +37,7 @@ const CUSTOM_BLOCKED_WORDS = [
   'retard', 'retarded', 'r3tard', 'ret4rd',
   'f4g', 'f4gg0t', 'tr4nny',
   'n1g', 'n1gg', 'nigg', 'n i g',
-  'jew', 'jews', 'j3w', 'j3ws', 'j e w', 'joo', 'joos', 'j00', 'j00s',
+  'jew', 'jews', 'j3w', 'j3ws', 'j e w', 'joo', 'joos', 'j00', 'j00s', 'juice',
   // Leet speak / evasion variants
   'b1tch', 'b!tch', 'bi+ch', 'btch',
   'a$$', 'a ss', 'a s s',
