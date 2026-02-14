@@ -11,13 +11,43 @@ try {
   console.warn('Supabase not configured yet:', e.message);
 }
 
-// Content filter — bad-words library + custom negative phrases
+// Content filter — bad-words library + custom block list
 const filter = new Filter();
-filter.addWords(
-  'kill yourself', 'kys', 'go die', 'ugly', 'loser', 'worthless',
-  'pathetic', 'disgusting', 'stupid', 'idiot', 'moron', 'dumb',
-  'i hate', 'you suck', 'no one likes', 'nobody likes', 'fat', 'pp'
-);
+
+// Custom block list for words/phrases the library misses
+const CUSTOM_BLOCKED_WORDS = [
+  // Direct harassment & hate
+  'kill yourself', 'kys', 'go die', 'go kys', 'neck yourself',
+  'end yourself', 'unalive yourself', 'die already',
+  // Insults
+  'ugly', 'loser', 'worthless', 'pathetic', 'disgusting',
+  'stupid', 'idiot', 'moron', 'dumb', 'dumbass', 'fatass',
+  'lame', 'trash', 'garbage', 'clown', 'braindead', 'brainless',
+  'degenerate', 'incel', 'simp', 'creep', 'weirdo',
+  // Negative phrases
+  'i hate', 'you suck', 'no one likes', 'nobody likes',
+  'no one cares', 'nobody cares', 'shut up', 'stfu', 'gtfo',
+  'go away', 'you deserve', 'hope you', 'wish you were dead',
+  // Body shaming
+  'fat', 'fatso', 'skinny', 'anorexic',
+  // Sexual / inappropriate
+  'pp', 'deez nuts', 'booty', 'boobs', 'tiddy', 'tiddies',
+  'sugma', 'ligma', 'balls', 'smd', 'succ',
+  // Slurs & variants the library may miss
+  'retard', 'retarded', 'r3tard', 'ret4rd',
+  'f4g', 'f4gg0t', 'tr4nny',
+  'n1g', 'n1gg', 'nigg', 'n i g',
+  // Leet speak / evasion variants
+  'b1tch', 'b!tch', 'bi+ch', 'btch',
+  'a$$', 'a ss', 'a s s',
+  'sh1t', 'sh!t', 's h i t',
+  'f u c k', 'fvck', 'fuk', 'phuck', 'phuk',
+  'd1ck', 'd!ck',
+  'p u s s y', 'pu$$y',
+  'wh0re', 'h0e', 'sk4nk', 'slvt',
+];
+
+filter.addWords(...CUSTOM_BLOCKED_WORDS);
 
 // Blocked emojis
 const BLOCKED_EMOJIS = [
@@ -41,7 +71,32 @@ const BLOCKED_EMOJIS = [
 
 function containsBlockedContent(text) {
   if (BLOCKED_EMOJIS.some((emoji) => text.includes(emoji))) return true;
-  return filter.isProfane(text);
+
+  const lower = text.toLowerCase();
+  // Check original text
+  if (filter.isProfane(lower)) return true;
+
+  // Check with spaces stripped (catches "s t u p i d", "f u c k", etc.)
+  const stripped = lower.replace(/\s+/g, '');
+  if (filter.isProfane(stripped)) return true;
+
+  // Block any word starting with "nigg" (catches all variants)
+  if (/\bnigg/i.test(lower) || /\bn\s*i\s*g\s*g/i.test(lower)) return true;
+
+  // Check with common leet substitutions normalized
+  const normalized = lower
+    .replace(/0/g, 'o')
+    .replace(/1/g, 'i')
+    .replace(/3/g, 'e')
+    .replace(/4/g, 'a')
+    .replace(/5/g, 's')
+    .replace(/\$/g, 's')
+    .replace(/@/g, 'a')
+    .replace(/!/g, 'i')
+    .replace(/\+/g, 't');
+  if (filter.isProfane(normalized)) return true;
+
+  return false;
 }
 
 // DOM elements
